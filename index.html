@@ -13,7 +13,13 @@
   <body>
     <header class="site-header">
       <a class="brand" href="#top">
-        <span class="mark">AY</span>
+        <img
+          class="avatar"
+          src="assets/images/avatar.jpg"
+          alt="Argo Yu"
+          onerror="this.style.display='none'; document.getElementById('avatar-fallback').style.display='flex';"
+        />
+        <div id="avatar-fallback" class="avatar-fallback">AY</div>
         <span class="brand-text">
           <span class="name">Argo Yu</span>
           <span class="tag">Computer Science student @ University of Dayton</span>
@@ -58,7 +64,7 @@
           </div>
           <div class="card">
             <h3>Core Skills</h3>
-            <p>Java, Dart, Git, VS Code, OOP, Data Structures, Debugging</p>
+            <p>Java, Dart, C++, HTML, Git, VS Code, OOP, Data Structures, Debugging</p>
           </div>
         </div>
       </section>

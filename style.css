@@ -61,6 +61,31 @@ main {
   gap: 12px;
 }
 
+.avatar,
+.avatar-fallback {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: block;
+}
+
+.avatar {
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.avatar-fallback {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(120, 220, 210, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  color: #cfeff0;
+  font-weight: 700;
+}
+
 .brand-text {
   display: flex;
   flex-direction: column;
