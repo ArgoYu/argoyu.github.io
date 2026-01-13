@@ -3,84 +3,62 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Argoyu - Personal Site</title>
-    <meta name="description" content="Argoyu." />
+    <title>Argo Yu | CS Portfolio</title>
+    <meta
+      name="description"
+      content="Argo Yu - Computer Science student @ University of Dayton. Projects, research, skills, and contact."
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header class="site-header">
-      <div class="brand">
-        <span class="mark">A</span>
-        <div>
-          <p class="name">Argoyu</p>
-          <p class="tag">Designer + Builder</p>
-        </div>
-      </div>
+      <a class="brand" href="#top">
+        <span class="mark">AY</span>
+        <span class="brand-text">
+          <span class="name">Argo Yu</span>
+          <span class="tag">Computer Science student @ University of Dayton</span>
+        </span>
+      </a>
       <nav class="nav">
-        <a href="#about">About</a>
         <a href="#projects">Projects</a>
-        <a href="#now">Now</a>
+        <a href="#research">Research</a>
+        <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
 
     <main>
       <section class="hero" id="top">
-        <div class="hero-text">
-          <p class="eyebrow">Hello, I am</p>
-          <h1>Peiran Yu .</h1>
+        <div class="hero-text" data-reveal>
+          <p class="eyebrow">CS Portfolio</p>
+          <h1>Argo Yu</h1>
+          <p class="role">Computer Science student @ University of Dayton</p>
+          <div class="hero-meta">
+            <span>GPA 3.64</span>
+            <span>argoyu.dev</span>
+          </div>
           <p class="lead">
-            I create digital products that feel human, clear, and a bit surprising.
-            This site is a lightweight home for my work, experiments, and notes.
+            Building clean, reliable software with a focus on readable code and usable interfaces.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" href="#projects">View projects</a>
-            <a class="btn ghost" href="#contact">Get in touch</a>
-          </div>
-          <div class="meta">
-            <span>Based in Taipei</span>
-            <span>Open for collaborations</span>
+            <a class="btn primary" href="#projects">View Projects</a>
+            <a class="btn ghost" href="https://github.com/ArgoYu" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="btn ghost" href="mailto:yup003@udayton.edu">Email</a>
+            <a class="btn outline" href="./resume.pdf" data-resume>Download Resume</a>
           </div>
         </div>
-        <div class="hero-card">
-          <div class="card" data-reveal>
-            <p class="card-title">Current focus</p>
-            <p class="card-body">
-              Crafting a personal design system that blends editorial typography with
-              bold gradients and motion.
-            </p>
-          </div>
-          <div class="card" data-reveal>
-            <p class="card-title">Toolkit</p>
-            <p class="card-body">TypeScript, React, Astro, Figma, and thoughtful CSS.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="about" data-reveal>
-        <div class="section-heading">
-          <h2>About</h2>
-          <p>
-            I partner with teams to prototype, design, and ship. I care about
-            clarity, tone, and building tools that help people move with confidence.
-          </p>
-        </div>
-        <div class="grid">
-          <div class="panel">
-            <h3>What I do</h3>
+        <div class="hero-card" data-reveal>
+          <div class="card">
+            <h3>Quick Profile</h3>
             <ul>
-              <li>Product strategy + direction</li>
-              <li>Brand and visual systems</li>
-              <li>Frontend architecture</li>
+              <li>GPA 3.64</li>
+              <li>GitHub: ArgoYu</li>
+              <li>Email: yup003@udayton.edu</li>
             </ul>
           </div>
-          <div class="panel">
-            <h3>How I work</h3>
-            <ul>
-              <li>Rapid prototyping and iteration</li>
-              <li>Clear storytelling and documentation</li>
-              <li>Designing for long-term maintenance</li>
-            </ul>
+          <div class="card">
+            <h3>Core Skills</h3>
+            <p>Java, Dart, Git, VS Code, OOP, Data Structures, Debugging</p>
           </div>
         </div>
       </section>
@@ -88,93 +66,103 @@
       <section class="section" id="projects" data-reveal>
         <div class="section-heading">
           <h2>Projects</h2>
-          <p>Selected work that highlights product thinking, detail, and craft.</p>
+          <p>Focused, hands-on work with a bias toward clarity and iteration.</p>
         </div>
         <div class="project-list">
-          <article class="project">
-            <div>
-              <h3>Atlas UI Kit</h3>
-              <p>
-                A modular interface kit that helps teams move from idea to shipped
-                feature with consistent visuals and accessibility baked in.
-              </p>
+          <article class="project-card">
+            <div class="project-header">
+              <h3>Echo AI / Patient Tracker</h3>
+              <span class="pill">Dart / Flutter</span>
             </div>
-            <span class="pill">Design systems</span>
+            <ul>
+              <li>Structured features with a modular Flutter architecture.</li>
+              <li>Designed patient tracking UI flows with clean state handling.</li>
+              <li>Built reusable widgets to speed iteration and consistency.</li>
+              <li>Iterated via Git branches and focused commit history.</li>
+            </ul>
           </article>
-          <article class="project">
-            <div>
-              <h3>Pulse Analytics</h3>
-              <p>
-                An analytics dashboard that turns complex metrics into actionable
-                stories for product teams.
-              </p>
+          <article class="project-card">
+            <div class="project-header">
+              <h3>Java Coursework / Data Structures</h3>
+              <span class="pill">Java</span>
             </div>
-            <span class="pill">Data product</span>
+            <ul>
+              <li>Applied OOP principles using interfaces and class hierarchies.</li>
+              <li>Implemented data structure fundamentals for coursework labs.</li>
+              <li>Handled edge cases with defensive logic and validation.</li>
+              <li>Practiced testing and debugging to verify correctness.</li>
+            </ul>
           </article>
-          <article class="project">
-            <div>
-              <h3>Signal Notes</h3>
-              <p>
-                A lightweight writing tool focused on clarity, with typography and
-                motion as the primary interface.
-              </p>
+          <article class="project-card">
+            <div class="project-header">
+              <h3>Personal Website (argoyu.dev)</h3>
+              <span class="pill">GitHub Pages</span>
             </div>
-            <span class="pill">Editor</span>
+            <ul>
+              <li>Deployed as a fast single-page site on GitHub Pages.</li>
+              <li>Configured custom domain and HTTPS for production delivery.</li>
+              <li>Maintained a minimal, recruiter-friendly layout and load time.</li>
+            </ul>
           </article>
         </div>
       </section>
 
-      <section class="section" id="now" data-reveal>
+      <section class="section" id="research" data-reveal>
         <div class="section-heading">
-          <h2>Now</h2>
-          <p>
-            Exploring kinetic type systems, building a small collection of web
-            components, and documenting how design choices translate into code.
-          </p>
+          <h2>Research</h2>
+          <p>Undergraduate contributions supporting technical exploration.</p>
         </div>
-        <div class="timeline">
-          <div class="timeline-item">
-            <span class="time">Q2 2024</span>
-            <p>Launching a tiny CSS utility set for expressive layouts.</p>
-          </div>
-          <div class="timeline-item">
-            <span class="time">Q1 2024</span>
-            <p>Prototyping a new onboarding flow for a fintech partner.</p>
-          </div>
-          <div class="timeline-item">
-            <span class="time">2023</span>
-            <p>Built a design-to-code workflow for a distributed product team.</p>
-          </div>
+        <div class="card">
+          <h3>Undergraduate Research Assistant - University of Dayton</h3>
+          <ul>
+            <li>Assisted with technical research tasks and experimentation.</li>
+            <li>Contributed code and documentation to support project goals.</li>
+            <li>Communicated progress and incorporated feedback quickly.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="skills" data-reveal>
+        <div class="section-heading">
+          <h2>Skills</h2>
+          <p>Tools and fundamentals used across coursework and projects.</p>
+        </div>
+        <div class="skill-list">
+          <span>Java</span>
+          <span>Dart</span>
+          <span>Git</span>
+          <span>VS Code</span>
+          <span>OOP</span>
+          <span>Data Structures (Fundamentals)</span>
+          <span>Debugging</span>
         </div>
       </section>
 
       <section class="section" id="contact" data-reveal>
         <div class="section-heading">
           <h2>Contact</h2>
-          <p>
-            Say hello, share feedback, or collaborate on something ambitious.
-            I usually reply within a few days.
-          </p>
+          <p>Open to internships and project opportunities.</p>
         </div>
         <div class="contact-card">
           <div>
             <p class="contact-label">Email</p>
-            <a href="mailto:hello@argoyu.dev">hello@argoyu.dev</a>
+            <a href="mailto:yup003@udayton.edu">yup003@udayton.edu</a>
           </div>
           <div>
-            <p class="contact-label">Elsewhere</p>
-            <div class="contact-links">
-              <a href="https://github.com/">GitHub</a>
-              <a href="https://www.linkedin.com/">LinkedIn</a>
-              <a href="https://twitter.com/">Twitter</a>
-            </div>
+            <p class="contact-label">GitHub</p>
+            <a href="https://github.com/ArgoYu" target="_blank" rel="noreferrer">github.com/ArgoYu</a>
+          </div>
+          <div>
+            <p class="contact-label">Domain</p>
+            <a href="https://argoyu.dev" target="_blank" rel="noreferrer">argoyu.dev</a>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <p>Designed and built by Argoyu. 2024.</p>
+      <p>Argo Yu | argoyu.dev</p>
+      <p class="legal">Legal name: Peiran Yu</p>
     </footer>
 
     <script src="script.js"></script>
