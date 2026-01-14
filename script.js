@@ -1,4 +1,5 @@
 const revealItems = document.querySelectorAll("[data-reveal]");
+let observeReveal = () => {};
 
 if (revealItems.length > 0) {
   const observer = new IntersectionObserver(
@@ -13,8 +14,13 @@ if (revealItems.length > 0) {
     { threshold: 0.15 }
   );
 
-<<<<<<< HEAD
-  revealItems.forEach((item) => observer.observe(item));
+  observeReveal = (element) => {
+    if (element) {
+      observer.observe(element);
+    }
+  };
+
+  revealItems.forEach((item) => observeReveal(item));
 }
 
 const resumeLink = document.querySelector("[data-resume]");
@@ -33,14 +39,6 @@ if (resumeLink) {
       resumeLink.addEventListener("click", (event) => event.preventDefault());
     });
 }
-=======
-const observeReveal = (element) => {
-  if (element) {
-    observer.observe(element);
-  }
-};
-
-revealItems.forEach((item) => observeReveal(item));
 
 // Replace these placeholder paths with your own images in assets/photos.
 const photoData = [
@@ -312,4 +310,3 @@ document.addEventListener("keydown", (event) => {
 });
 
 renderGallery();
->>>>>>> 3928b48 (update)
