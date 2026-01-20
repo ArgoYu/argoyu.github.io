@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Campus Sunset",
+    "caption": "Golden hour near the engineering building.",
+    "src": "assets/images/photos/campus-sunset.jpg",
+    "alt": "Sunset over the University of Dayton campus",
+    "date": "2024-10-12",
+    "location": "Dayton, OH",
+    "tags": ["Campus", "Sunset"]
+  },
+  {
+    "title": "Hackathon Build",
+    "caption": "Late-night work session on the demo.",
+    "src": "assets/images/photos/hackathon-build.jpg",
+    "alt": "Laptop and notebook on a desk",
+    "date": "2024-02-24",
+    "location": "UD Innovation Lab",
+    "tags": ["Projects", "People"]
+  }
+]

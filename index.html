@@ -27,6 +27,7 @@
       </a>
       <nav class="nav">
         <a href="#projects">Projects</a>
+        <a href="#photos">Photos</a>
         <a href="#research">Research</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
@@ -125,6 +126,18 @@
         </div>
       </section>
 
+      <section class="section" id="photos" data-reveal>
+        <div class="section-heading">
+          <h2>Photos</h2>
+          <p>A few moments from campus, projects, and everyday inspiration.</p>
+        </div>
+        <div class="photo-filters" data-photo-filters></div>
+        <div class="photo-grid" data-photo-grid></div>
+        <div class="photo-empty" data-photo-empty hidden>
+          Add your photos in <code>photos.json</code> to populate this gallery.
+        </div>
+      </section>
+
       <section class="section" id="research" data-reveal>
         <div class="section-heading">
           <h2>Research</h2>
@@ -182,6 +195,35 @@
       <p>Argo Yu | argoyu.dev</p>
       <p class="legal">Legal name: Peiran Yu</p>
     </footer>
+
+    <div class="lightbox" id="photo-lightbox" aria-hidden="true">
+      <div class="lightbox-backdrop" data-lightbox-close></div>
+      <div class="lightbox-card" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+        <button class="lightbox-close" type="button" aria-label="Close photo">&times;</button>
+        <div class="lightbox-media">
+          <div class="photo-placeholder">No Image</div>
+          <img alt="" />
+        </div>
+        <div class="lightbox-content">
+          <h3 id="lightbox-title"></h3>
+          <p class="lightbox-caption"></p>
+          <div class="lightbox-details">
+            <div class="detail-item" data-detail-item="location">
+              <span class="detail-label">Location</span>
+              <span class="detail-value" data-detail="location"></span>
+            </div>
+            <div class="detail-item" data-detail-item="date">
+              <span class="detail-label">Date</span>
+              <span class="detail-value" data-detail="date"></span>
+            </div>
+            <div class="detail-item" data-detail-item="tags">
+              <span class="detail-label">Tags</span>
+              <span class="detail-value" data-detail="tags"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
