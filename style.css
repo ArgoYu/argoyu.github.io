@@ -623,10 +623,6 @@ body.modal-open {
   flex-wrap: wrap;
 }
 
-.legal {
-  margin: 0;
-}
-
 [data-reveal] {
   opacity: 0;
   transform: translateY(18px);
