@@ -1,3 +1,6 @@
+const timePhases = ["dawn", "day", "dusk", "night"];
+const weatherConditions = ["clear", "cloudy", "rain", "snow", "thunder", "fog"];
+
 const weatherCodeGroups = {
   clear: [0, 1],
   cloudy: [2, 3],
@@ -17,6 +20,33 @@ const weatherConditionByCode = Object.entries(weatherCodeGroups).reduce(
   {}
 );
 
+const searchParams = new URLSearchParams(window.location.search);
+let isDevThemeEnabled =
+  searchParams.get("dev-theme") === "1" ||
+  searchParams.get("dev") === "1" ||
+  searchParams.has("time") ||
+  searchParams.has("weather");
+
+const isValidTimePhase = (value) => timePhases.includes(value);
+const isValidWeatherCondition = (value) => weatherConditions.includes(value);
+
+const getValidatedParam = (key, validator) => {
+  const value = searchParams.get(key);
+  if (value === "auto") {
+    return "auto";
+  }
+  return value && validator(value) ? value : "auto";
+};
+
+let liveTimePhase = "night";
+let liveWeatherCondition = "clear";
+let devThemeState = {
+  time: getValidatedParam("time", isValidTimePhase),
+  weather: getValidatedParam("weather", isValidWeatherCondition),
+};
+let devThemePanel = null;
+let weatherFxLayer = null;
+
 const getTimePhase = () => {
   const hour = new Date().getHours();
   if (hour >= 5 && hour < 8) {
@@ -34,6 +64,85 @@ const getTimePhase = () => {
 const applyDynamicBackground = ({ timePhase, weatherCondition = "clear" }) => {
   document.body.setAttribute("data-time", timePhase);
   document.body.setAttribute("data-weather", weatherCondition);
+  if (!weatherFxLayer) {
+    weatherFxLayer = createWeatherFxLayer();
+  }
+  weatherFxLayer.setAttribute("data-weather", weatherCondition);
+};
+
+const createParticle = (className, styleVars) => {
+  const particle = document.createElement("span");
+  particle.className = className;
+  Object.entries(styleVars).forEach(([key, value]) => {
+    particle.style.setProperty(key, String(value));
+  });
+  return particle;
+};
+
+const createWeatherFxLayer = () => {
+  const layer = document.createElement("div");
+  layer.className = "weather-fx";
+  layer.setAttribute("aria-hidden", "true");
+
+  const rainLayer = document.createElement("div");
+  rainLayer.className = "weather-fx-rain";
+  for (let i = 0; i < 48; i += 1) {
+    rainLayer.append(
+      createParticle("weather-drop", {
+        "--x": `${Math.random() * 100}%`,
+        "--delay": `${Math.random() * 2.5}s`,
+        "--duration": `${0.7 + Math.random() * 0.9}s`,
+        "--len": `${12 + Math.random() * 16}px`,
+      })
+    );
+  }
+
+  const snowLayer = document.createElement("div");
+  snowLayer.className = "weather-fx-snow";
+  for (let i = 0; i < 34; i += 1) {
+    snowLayer.append(
+      createParticle("weather-flake", {
+        "--x": `${Math.random() * 100}%`,
+        "--delay": `${Math.random() * 6}s`,
+        "--duration": `${5 + Math.random() * 6}s`,
+        "--size": `${2 + Math.random() * 5}px`,
+        "--drift": `${-30 + Math.random() * 60}px`,
+      })
+    );
+  }
+
+  const fogLayer = document.createElement("div");
+  fogLayer.className = "weather-fx-fog";
+
+  const cloudLayer = document.createElement("div");
+  cloudLayer.className = "weather-fx-clouds";
+  for (let i = 0; i < 8; i += 1) {
+    cloudLayer.append(
+      createParticle("weather-cloud", {
+        "--top": `${8 + Math.random() * 28}%`,
+        "--size": `${160 + Math.random() * 220}px`,
+        "--delay": `${Math.random() * 8}s`,
+        "--duration": `${20 + Math.random() * 18}s`,
+      })
+    );
+  }
+
+  const thunderLayer = document.createElement("div");
+  thunderLayer.className = "weather-fx-thunder";
+
+  layer.append(cloudLayer, fogLayer, rainLayer, snowLayer, thunderLayer);
+  document.body.append(layer);
+  return layer;
+};
+
+const getEffectiveTheme = () => ({
+  timePhase: devThemeState.time === "auto" ? liveTimePhase : devThemeState.time,
+  weatherCondition: devThemeState.weather === "auto" ? liveWeatherCondition : devThemeState.weather,
+});
+
+const renderDynamicBackground = () => {
+  const effectiveTheme = getEffectiveTheme();
+  applyDynamicBackground(effectiveTheme);
 };
 
 const fetchWeatherCondition = async (latitude, longitude) => {
@@ -63,24 +172,186 @@ const getCurrentPosition = () =>
     );
   });
 
+const shouldFetchLiveWeather = () => devThemeState.weather === "auto";
+
 const setBackgroundFromTimeAndWeather = async () => {
-  const timePhase = getTimePhase();
-  applyDynamicBackground({ timePhase, weatherCondition: "clear" });
+  liveTimePhase = getTimePhase();
+  renderDynamicBackground();
+
+  if (!shouldFetchLiveWeather()) {
+    return;
+  }
 
   try {
     const position = await getCurrentPosition();
-    const weatherCondition = await fetchWeatherCondition(
+    liveWeatherCondition = await fetchWeatherCondition(
       position.coords.latitude,
       position.coords.longitude
     );
-    applyDynamicBackground({ timePhase, weatherCondition });
+    renderDynamicBackground();
   } catch {
     // Keep time-based background when location/weather lookup is unavailable.
   }
 };
 
+const setDevThemeState = (nextState) => {
+  devThemeState = { ...devThemeState, ...nextState };
+  renderDynamicBackground();
+};
+
+const syncDevThemeQuery = () => {
+  const url = new URL(window.location.href);
+  if (isDevThemeEnabled) {
+    url.searchParams.set("dev-theme", "1");
+    url.searchParams.set("time", devThemeState.time);
+    url.searchParams.set("weather", devThemeState.weather);
+  } else {
+    url.searchParams.delete("dev-theme");
+    url.searchParams.delete("time");
+    url.searchParams.delete("weather");
+  }
+  window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+};
+
+const buildDevThemePanel = () => {
+  const panel = document.createElement("aside");
+  panel.className = "dev-theme-panel";
+  panel.setAttribute("aria-label", "Theme debug panel");
+
+  const title = document.createElement("h3");
+  title.textContent = "Theme Debug";
+
+  const timeLabel = document.createElement("label");
+  timeLabel.textContent = "Time";
+  const timeSelect = document.createElement("select");
+  const weatherLabel = document.createElement("label");
+  weatherLabel.textContent = "Weather";
+  const weatherSelect = document.createElement("select");
+
+  const status = document.createElement("p");
+  status.className = "dev-theme-status";
+
+  const createOption = (value, label) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    return option;
+  };
+
+  timeSelect.append(createOption("auto", "Auto"));
+  timePhases.forEach((phase) => timeSelect.append(createOption(phase, phase)));
+  weatherSelect.append(createOption("auto", "Auto"));
+  weatherConditions.forEach((condition) => weatherSelect.append(createOption(condition, condition)));
+
+  timeSelect.value = devThemeState.time;
+  weatherSelect.value = devThemeState.weather;
+
+  const updateStatus = () => {
+    const resolved = getEffectiveTheme();
+    status.textContent = `Active: ${resolved.timePhase} / ${resolved.weatherCondition}`;
+  };
+
+  timeSelect.addEventListener("change", () => {
+    setDevThemeState({ time: timeSelect.value });
+    syncDevThemeQuery();
+    updateStatus();
+  });
+
+  weatherSelect.addEventListener("change", () => {
+    setDevThemeState({ weather: weatherSelect.value });
+    if (weatherSelect.value === "auto") {
+      setBackgroundFromTimeAndWeather();
+    }
+    syncDevThemeQuery();
+    updateStatus();
+  });
+
+  const copyLinkButton = document.createElement("button");
+  copyLinkButton.type = "button";
+  copyLinkButton.textContent = "Copy Link";
+  copyLinkButton.addEventListener("click", async () => {
+    const debugUrl = new URL(window.location.href);
+    debugUrl.searchParams.set("dev-theme", "1");
+    debugUrl.searchParams.set("time", timeSelect.value);
+    debugUrl.searchParams.set("weather", weatherSelect.value);
+    try {
+      await navigator.clipboard.writeText(debugUrl.toString());
+      copyLinkButton.textContent = "Copied";
+      setTimeout(() => {
+        copyLinkButton.textContent = "Copy Link";
+      }, 1200);
+    } catch {
+      copyLinkButton.textContent = "Copy Failed";
+      setTimeout(() => {
+        copyLinkButton.textContent = "Copy Link";
+      }, 1400);
+    }
+  });
+
+  const resetButton = document.createElement("button");
+  resetButton.type = "button";
+  resetButton.textContent = "Use Live";
+  resetButton.addEventListener("click", () => {
+    timeSelect.value = "auto";
+    weatherSelect.value = "auto";
+    setDevThemeState({ time: "auto", weather: "auto" });
+    setBackgroundFromTimeAndWeather();
+    syncDevThemeQuery();
+    updateStatus();
+  });
+
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.textContent = "Close";
+  closeButton.addEventListener("click", () => {
+    panel.remove();
+    devThemePanel = null;
+    isDevThemeEnabled = false;
+    setDevThemeState({ time: "auto", weather: "auto" });
+    syncDevThemeQuery();
+    setBackgroundFromTimeAndWeather();
+  });
+
+  const actions = document.createElement("div");
+  actions.className = "dev-theme-actions";
+  actions.append(copyLinkButton, resetButton, closeButton);
+
+  panel.append(title, timeLabel, timeSelect, weatherLabel, weatherSelect, status, actions);
+  document.body.append(panel);
+  updateStatus();
+  return panel;
+};
+
+const openDevThemePanel = () => {
+  if (devThemePanel) {
+    return;
+  }
+  isDevThemeEnabled = true;
+  devThemePanel = buildDevThemePanel();
+  syncDevThemeQuery();
+};
+
+const buildDevThemeEntry = () => {
+  const entryButton = document.createElement("button");
+  entryButton.type = "button";
+  entryButton.className = "dev-theme-entry";
+  entryButton.textContent = "Theme QA";
+  entryButton.setAttribute("aria-label", "Open theme debug panel");
+  entryButton.addEventListener("click", openDevThemePanel);
+  document.body.append(entryButton);
+};
+
 setBackgroundFromTimeAndWeather();
 setInterval(setBackgroundFromTimeAndWeather, 20 * 60 * 1000);
+setInterval(() => {
+  liveTimePhase = getTimePhase();
+  renderDynamicBackground();
+}, 60 * 1000);
+
+if (isDevThemeEnabled) {
+  openDevThemePanel();
+}
+buildDevThemeEntry();
 
 const revealItems = document.querySelectorAll("[data-reveal]");
 let observeReveal = () => {};
