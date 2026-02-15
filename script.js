@@ -1,3 +1,87 @@
+const weatherCodeGroups = {
+  clear: [0, 1],
+  cloudy: [2, 3],
+  fog: [45, 48],
+  rain: [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82],
+  snow: [71, 73, 75, 77, 85, 86],
+  thunder: [95, 96, 99],
+};
+
+const weatherConditionByCode = Object.entries(weatherCodeGroups).reduce(
+  (map, [condition, codes]) => {
+    codes.forEach((code) => {
+      map[code] = condition;
+    });
+    return map;
+  },
+  {}
+);
+
+const getTimePhase = () => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 8) {
+    return "dawn";
+  }
+  if (hour >= 8 && hour < 17) {
+    return "day";
+  }
+  if (hour >= 17 && hour < 20) {
+    return "dusk";
+  }
+  return "night";
+};
+
+const applyDynamicBackground = ({ timePhase, weatherCondition = "clear" }) => {
+  document.body.setAttribute("data-time", timePhase);
+  document.body.setAttribute("data-weather", weatherCondition);
+};
+
+const fetchWeatherCondition = async (latitude, longitude) => {
+  const url = new URL("https://api.open-meteo.com/v1/forecast");
+  url.searchParams.set("latitude", String(latitude));
+  url.searchParams.set("longitude", String(longitude));
+  url.searchParams.set("current", "weather_code");
+  const response = await fetch(url.toString());
+  if (!response.ok) {
+    throw new Error("weather request failed");
+  }
+  const data = await response.json();
+  const weatherCode = Number(data?.current?.weather_code);
+  return weatherConditionByCode[weatherCode] || "clear";
+};
+
+const getCurrentPosition = () =>
+  new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("geolocation unsupported"));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => resolve(position),
+      () => reject(new Error("geolocation denied")),
+      { timeout: 8000, maximumAge: 15 * 60 * 1000 }
+    );
+  });
+
+const setBackgroundFromTimeAndWeather = async () => {
+  const timePhase = getTimePhase();
+  applyDynamicBackground({ timePhase, weatherCondition: "clear" });
+
+  try {
+    const position = await getCurrentPosition();
+    const weatherCondition = await fetchWeatherCondition(
+      position.coords.latitude,
+      position.coords.longitude
+    );
+    applyDynamicBackground({ timePhase, weatherCondition });
+  } catch {
+    // Keep time-based background when location/weather lookup is unavailable.
+  }
+};
+
+setBackgroundFromTimeAndWeather();
+setInterval(setBackgroundFromTimeAndWeather, 20 * 60 * 1000);
+
 const revealItems = document.querySelectorAll("[data-reveal]");
 let observeReveal = () => {};
 
