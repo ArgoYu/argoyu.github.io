@@ -1,10 +1,55 @@
 [
   {
+    "title": "Downtown Cincinati",
+    "caption": "Downtown skyline view.",
+    "src": "assets/images/photos/Downtown Cincinati.JPG",
+    "alt": "Downtown Cincinati skyline",
+    "date": "2024-12-17",
+    "location": "Cincinnati, OH",
+    "tags": ["City", "Skyline"]
+  },
+  {
     "title": "Humanity Building",
     "caption": "Evening view of the Humanity Building.",
     "src": "assets/images/photos/Humanity Building.JPG",
     "alt": "Humanity Building at dusk",
-    "date": "2025-01-01",
+    "date": "2025-01-05",
+    "location": "Dayton, OH",
+    "tags": ["Campus", "Architecture"]
+  },
+  {
+    "title": "NewYork City Time Square",
+    "caption": "Busy scene in Times Square.",
+    "src": "assets/images/photos/NewYork City Time Square.JPG",
+    "alt": "Times Square in New York City",
+    "date": "2024-12-25",
+    "location": "New York, NY",
+    "tags": ["City", "Travel"]
+  },
+  {
+    "title": "SpringField",
+    "caption": "City view in Springfield.",
+    "src": "assets/images/photos/SpringField.JPG",
+    "alt": "Springfield city view",
+    "date": "2024-09-28",
+    "location": "Springfield",
+    "tags": ["City"]
+  },
+  {
+    "title": "Sunset of Dayton City",
+    "caption": "Sunset over Dayton skyline.",
+    "src": "assets/images/photos/Sunset of Dayton City.JPG",
+    "alt": "Dayton city skyline at sunset",
+    "date": "2025-01-05",
+    "location": "Dayton, OH",
+    "tags": ["Sunset", "City"]
+  },
+  {
+    "title": "The UD Chapel",
+    "caption": "The chapel on UD campus.",
+    "src": "assets/images/photos/The UD Chapel.JPG",
+    "alt": "University of Dayton chapel",
+    "date": "2025-01-05",
     "location": "Dayton, OH",
     "tags": ["Campus", "Architecture"]
   },
@@ -13,7 +58,7 @@
     "caption": "Sunset over campus.",
     "src": "assets/images/photos/UD Sunset.JPG",
     "alt": "University of Dayton campus during sunset",
-    "date": "2025-01-01",
+    "date": "2025-01-05",
     "location": "Dayton, OH",
     "tags": ["Campus", "Sunset"]
   }
