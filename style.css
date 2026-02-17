@@ -532,7 +532,7 @@ h1 {
 
 .photo-mini {
   display: grid;
-  grid-template-columns: 84px 1fr;
+  grid-template-columns: 96px 1fr;
   gap: 16px;
   align-items: center;
   padding: 18px;
@@ -543,18 +543,18 @@ h1 {
 }
 
 .photo-mini img {
-  width: 84px;
-  height: 84px;
-  border-radius: 18px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
   object-fit: cover;
   display: block;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
 }
 
 .photo-mini-meta h3 {
   margin: 0 0 6px;
-  font-size: 1.02rem;
+  font-size: 1.05rem;
 }
 
 .photo-mini-meta p {
